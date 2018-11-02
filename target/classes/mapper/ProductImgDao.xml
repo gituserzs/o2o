@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.o2o.dao.ProductImgDao">
+    <resultMap id="productImg" type="com.zs.o2o.entity.ProductImg">
+        <id property="productImgId" column="product_img_id"/>
+        <result property="imgAddr" column="img_addr"/>
+        <result property="imgDesc" column="img_desc"/>
+        <result property="priority" column="priority"/>
+        <result property="createTime" column="create_time"/>
+        <result property="productId" column="product_id"/>
+    </resultMap>
+    <insert id="batchInsertProductImg" parameterType="java.util.List">
+        INSERT INTO tb_product_img(img_addr,img_desc,priority,create_time,product_id)
+        VALUES
+        <foreach collection="list" separator="," item="productImg" index="index">
+            (#{productImg.imgAddr},#{productImg.imgDesc},#{productImg.priority},#{productImg.createTime},
+            #{productImg.productId})
+        </foreach>
+    </insert>
+    <delete id="deleteProductImg">
+        DELETE FROM tb_product_img WHERE product_id = #{productId}
+    </delete>
+    <select id="queryProductImg" resultMap="productImg">
+        SELECT product_img_id,img_addr,img_desc,priority,create_time
+        FROM tb_product_img
+        WHERE product_id = #{productId}
+    </select>
+</mapper>

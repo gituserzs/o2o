@@ -1,0 +1,10 @@
+2018-09-30 01:50:14[main] DEBUG com.zs.o2o.dao.ShopDao.insertShop-==>  Preparing: INSERT INTO tb_shop(owner_id,area_id,shop_category_id,shop_name,shop_desc,shop_addr,phone,shop_img,priority,create_time last_edit_time,enable_status,advice) values (?,?,?,?,?,?,?, ?,?,?,?,?,?) 
+2018-09-30 01:50:14[main] DEBUG com.zs.o2o.dao.ShopDao.insertShop-==> Parameters: 11(Long), null, 11(Long), 测试店铺(String), test(String), test(String), test(String), test(String), null, 2018-09-30 09:50:14.346(Timestamp), null, 1(Integer), 审核中(String)
+2018-09-30 01:52:10[main] DEBUG com.zs.o2o.dao.ShopDao.insertShop-==>  Preparing: INSERT INTO tb_shop(owner_id,area_id,shop_category_id,shop_name,shop_desc,shop_addr,phone,shop_img,priority,create_time last_edit_time,enable_status,advice) values (?,?,?,?,?,?,?, ?,?,?,?,?,?) 
+2018-09-30 01:52:10[main] DEBUG com.zs.o2o.dao.ShopDao.insertShop-==> Parameters: 11(Long), 3(Integer), 11(Long), 测试店铺(String), test(String), test(String), test(String), test(String), null, 2018-09-30 09:52:10.083(Timestamp), null, 1(Integer), 审核中(String)
+2018-09-30 01:54:23[main] DEBUG com.zs.o2o.dao.ShopDao.insertShop-==>  Preparing: INSERT INTO tb_shop(owner_id,area_id,shop_category_id,shop_name,shop_desc,shop_addr,phone,shop_img,priority,create_time, last_edit_time,enable_status,advice) values (?,?,?,?,?,?,?, ?,?,?,?,?,?) 
+2018-09-30 01:54:23[main] DEBUG com.zs.o2o.dao.ShopDao.insertShop-==> Parameters: 11(Long), 3(Integer), 11(Long), 测试店铺(String), test(String), test(String), test(String), test(String), null, 2018-09-30 09:54:23.466(Timestamp), null, 1(Integer), 审核中(String)
+2018-09-30 01:54:24[main] DEBUG com.zs.o2o.dao.ShopDao.insertShop-<==    Updates: 1
+2018-09-30 02:14:57[main] DEBUG com.zs.o2o.dao.ShopDao.updateShop-==>  Preparing: update tb_shop SET shop_desc = ?, shop_addr = ?, last_edit_time = ? where shop_id = ? 
+2018-09-30 02:14:57[main] DEBUG com.zs.o2o.dao.ShopDao.updateShop-==> Parameters: 测试描述(String), 测试地址(String), 2018-09-30 10:14:57.009(Timestamp), 29(Long)
+2018-09-30 02:14:57[main] DEBUG com.zs.o2o.dao.ShopDao.updateShop-<==    Updates: 1

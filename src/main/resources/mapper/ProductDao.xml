@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.o2o.dao.ProductDao">
+    <resultMap id="productMap" type="com.zs.o2o.entity.Product">
+        <id property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productDesc" column="product_desc"/>
+        <result property="imgAddr" column="img_addr"/>
+        <result property="normalPrice" column="normal_price"/>
+        <result property="promotionPrice" column="promotion_price"/>
+        <result property="priority" column="priority"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastEditTime" column="last_edit_time"/>
+        <result property="enableStatus" column="enable_status"/>
+        <association property="productCategory" column="product_category_id"
+                     javaType="com.zs.o2o.entity.ProductCategory">
+            <id property="productCategoryId" column="product_category_id"/>
+            <result property="productCategoryName" column="product_category_name"/>
+        </association>
+        <association property="shop" column="shop_id" javaType="com.zs.o2o.entity.Shop">
+            <id property="shopId" column="shop_id"/>
+            <result property="ownerId" column="owner_id"/>
+            <result property="shopName" column="shop_name"/>
+        </association>
+        <collection property="productImgList" column="product_id" ofType="com.zs.o2o.entity.ProductImg">
+            <id property="productImgId" column="product_img_id"/>
+            <result property="imgAddr" column="img_addr"/>
+            <result property="imgDesc" column="img_desc"/>
+            <result property="priority" column="priority"/>
+            <result property="createTime" column="create_time"/>
+            <result property="productId" column="product_id"/>
+        </collection>
+    </resultMap>
+    <!--useGeneratedKeys插入成功返回主键值-->
+    <insert id="insertProduct" parameterType="com.zs.o2o.entity.Product" useGeneratedKeys="true"
+            keyProperty="productId" keyColumn="product_id">
+      INSERT INTO tb_product(product_name,product_desc,img_addr,normal_price,promotion_price,priority,
+      create_time,last_edit_time,enable_status,product_category_id,shop_id)
+      VALUES
+      (#{productName},#{productDesc},#{imgAddr},#{normalPrice},#{promotionPrice},#{priority},#{createTime},
+      #{lastEditTime},#{enableStatus},#{productCategory.productCategoryId},#{shop.shopId})
+    </insert>
+    <update id="updateProduct" parameterType="com.zs.o2o.entity.Product" keyProperty="product_id"
+            useGeneratedKeys="true">
+        UPDATE tb_product
+        <set>
+            <if test="productName != null">product_name = #{productName},</if>
+            <if test="productDesc != null">product_desc = #{productDesc},</if>
+            <if test="imgAddr != null">img_addr = #{imgAddr},</if>
+            <if test="normalPrice != null">normal_price = #{normalPrice},</if>
+            <if test="promotionPrice != null">promotion_price = #{promotionPrice},</if>
+            <if test="priority != null">priority = #{priority},</if>
+            <if test="lastEditTime != null">last_edit_time = #{lastEditTime},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="productCategory != null and productCategory.productCategoryId != null">
+                product_category_id = #{productCategory.productCategoryId},
+            </if>
+        </set>
+        WHERE product_id = #{productId} AND shop_id = #{shop.shopId}
+    </update>
+    <update id="updateProductCategoryIdToNull" parameterType="long">
+        UPDATE tb_product
+        SET
+        product_category_id = null
+        WHERE product_category_id = #{productCategoryId}
+    </update>
+    <select id="queryProductById" resultMap="productMap">
+        SELECT p.product_id,product_name,product_desc,p.img_addr,normal_price,promotion_price,p.priority,
+      p.create_time,p.last_edit_time,enable_status,p.product_category_id,p.shop_id,p.product_category_id,
+      pi.product_img_id,pi.img_addr,pi.img_desc,pi.priority,pi.create_time
+      FROM tb_product p
+      LEFT JOIN tb_product_img pi ON p.product_id = pi.product_id
+      WHERE p.product_id = #{productId}
+      ORDER BY
+      pi.priority DESC
+    </select>
+    <select id="queryProductList" resultMap="productMap">
+        SELECT product_id,product_name,tp.priority,tp.enable_status
+        FROM tb_product tp LEFT JOIN tb_shop ts ON tp.shop_id = ts.shop_id
+        WHERE tp.shop_id = #{shop.shopId} AND ts.owner_id = #{shop.ownerId}
+        ORDER BY
+        tp.priority DESC
+    </select>
+</mapper>
